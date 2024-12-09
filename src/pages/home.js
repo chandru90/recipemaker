@@ -11,20 +11,19 @@ export const Home = () => {
   const userID = useGetUserID();
 
   const fetchRecipes = useCallback(async () => {
-    const cachedRecipes = localStorage.getItem("recipes");
-    if (cachedRecipes) {
-      setRecipes(JSON.parse(cachedRecipes));
-    } else {
-      try {
-        const response = await axios.get(
-          "https://recipe-wnrc.onrender.com/recipes"
-        );
-        localStorage.setItem("recipes", JSON.stringify(response.data));
-        setRecipes(response.data);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load recipes. Please try again later.");
-      }
+    // const cachedRecipes = localStorage.getItem("recipes");
+    // if (cachedRecipes) {
+    //   setRecipes(JSON.parse(cachedRecipes));
+    // } else {
+    try {
+      const response = await axios.get(
+        "https://recipe-wnrc.onrender.com/recipes"
+      );
+      localStorage.setItem("recipes", JSON.stringify(response.data));
+      setRecipes(response.data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load recipes. Please try again later.");
     }
   }, []);
 
