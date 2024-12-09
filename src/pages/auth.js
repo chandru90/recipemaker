@@ -7,7 +7,6 @@ export const Auth = () => {
   const [showLogin, setShowLogin] = useState(true);
 
   useEffect(() => {
-   
     const form = document.querySelector("form");
     if (form) form.focus();
   }, [showLogin]);
@@ -40,10 +39,13 @@ const Login = ({ toggleForm }) => {
     event.preventDefault();
 
     try {
-      const result = await axios.post("http://localhost:3005/auth/login", {
-        username,
-        password,
-      });
+      const result = await axios.post(
+        "https://recipe-wnrc.onrender.com/auth/login",
+        {
+          username,
+          password,
+        }
+      );
 
       setCookies("access_token", result.data.token);
       window.localStorage.setItem("userID", result.data.userID);
@@ -123,7 +125,7 @@ const Login = ({ toggleForm }) => {
         <p className="text-sm text-gray-600">
           Don't have an account?{" "}
           <button
-            onClick={toggleForm} 
+            onClick={toggleForm}
             className="text-blue-500 hover:text-blue-700 font-semibold"
             aria-label="Switch to Register Form"
           >
@@ -154,7 +156,7 @@ const Register = ({ toggleForm }) => {
         alert("Please enter a valid email address.");
         return;
       }
-      await axios.post("http://localhost:3005/auth/register", {
+      await axios.post("https://recipe-wnrc.onrender.com/auth/register", {
         username,
         password,
       });
@@ -234,7 +236,7 @@ const Register = ({ toggleForm }) => {
         <p className="text-sm text-gray-600">
           Already have an account?{" "}
           <button
-            onClick={toggleForm} 
+            onClick={toggleForm}
             className="text-blue-500 hover:text-blue-700 font-semibold"
             aria-label="Switch to Login Form"
           >

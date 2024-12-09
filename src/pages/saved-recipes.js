@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useGetUserID } from "../hooks/useGetUserID";
 import axios from "axios";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 export const SavedRecipes = () => {
-  const [savedRecipes, setSavedRecipes] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(""); 
+  const [savedRecipes, setSavedRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const userID = useGetUserID();
 
   useEffect(() => {
-    
     if (!userID) {
       console.log("User ID is not available");
       return;
@@ -18,26 +17,23 @@ export const SavedRecipes = () => {
 
     const fetchSavedRecipes = async () => {
       try {
-        
         const response = await axios.get(
-          `http://localhost:3005/recipes/savedRecipes/${userID}`
+          `https://recipe-wnrc.onrender.com/recipes/savedRecipes/${userID}`
         );
 
-        
         console.log("savedrecipes", response.data.savedRecipes);
 
-        
         if (response.data && response.data.savedRecipes) {
           const recipeDetailsPromises = response.data.savedRecipes.map(
-            (recipeId) => axios.get(`http://localhost:3005/recipes/${recipeId}`)
+            (recipeId) =>
+              axios.get(`https://recipe-wnrc.onrender.com/recipes/${recipeId}`)
           );
 
-          
           const recipeDetailsResponses = await Promise.all(
             recipeDetailsPromises
           );
           console.log("new", recipeDetailsResponses);
-          
+
           const fetchedRecipes = recipeDetailsResponses.map((res) => res.data);
           setSavedRecipes(fetchedRecipes);
         } else {
@@ -47,22 +43,19 @@ export const SavedRecipes = () => {
         console.log("Error fetching saved recipes:", err);
         setError("Failed to load saved recipes.");
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    
     if (userID) {
       fetchSavedRecipes();
     }
   }, [userID]);
 
- 
   if (loading) {
     return <p className="text-center text-xl text-gray-600">Loading...</p>;
   }
 
-  
   if (error) {
     return <p className="text-center text-xl text-red-600">{error}</p>;
   }
@@ -71,17 +64,15 @@ export const SavedRecipes = () => {
     <div className="saverecipe p-8 bg-gray-100">
       <h1 className="text-4xl font-bold text-center mb-8">Saved Recipes</h1>
 
-     
       {savedRecipes.length === 0 ? (
         <p className="text-center text-xl text-gray-600">
           No saved recipes found.
         </p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          
           {savedRecipes.map((recipe) => (
             <li
-              key={recipe._id || recipe.name} 
+              key={recipe._id || recipe.name}
               className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <Link to={`/recipe/${recipe._id}`} className="block">
@@ -92,7 +83,6 @@ export const SavedRecipes = () => {
                 </div>
 
                 <div className="mb-4">
-                 
                   {recipe.imageUrl && (
                     <img
                       src={recipe.imageUrl}

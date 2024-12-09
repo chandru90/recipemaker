@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useGetUserID } from "../hooks/useGetUserID"; 
+import { useGetUserID } from "../hooks/useGetUserID";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 export const CreateRecipe = () => {
-  const userID = useGetUserID(); 
-  const [cookies, _] = useCookies(["access_token"]); 
+  const userID = useGetUserID();
+  const [cookies, _] = useCookies(["access_token"]);
   const [recipe, setRecipe] = useState({
     name: "",
     description: "",
     ingredients: [],
     instructions: "",
-    image: null, 
+    image: null,
     cookingTime: 0,
-    userOwner: userID, 
+    userOwner: userID,
   });
 
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export const CreateRecipe = () => {
   };
 
   const handleImageChange = (event) => {
-    setRecipe({ ...recipe, image: event.target.files[0] }); 
+    setRecipe({ ...recipe, image: event.target.files[0] });
   };
 
   const handleSubmit = async (event) => {
@@ -46,16 +46,16 @@ export const CreateRecipe = () => {
     const formData = new FormData();
     formData.append("name", recipe.name);
     formData.append("description", recipe.description);
-    formData.append("ingredients", JSON.stringify(recipe.ingredients)); 
+    formData.append("ingredients", JSON.stringify(recipe.ingredients));
     formData.append("instructions", recipe.instructions);
-    formData.append("image", recipe.image); 
+    formData.append("image", recipe.image);
     formData.append("cookingTime", recipe.cookingTime);
     formData.append("userOwner", recipe.userOwner);
 
     try {
-      await axios.post("http://localhost:3005/recipes", formData, {
+      await axios.post("https://recipe-wnrc.onrender.com/recipes", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", 
+          "Content-Type": "multipart/form-data",
           authorization: cookies.access_token,
         },
       });
@@ -78,7 +78,6 @@ export const CreateRecipe = () => {
           Create a New Recipe
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           <div>
             <label
               htmlFor="name"
@@ -141,7 +140,6 @@ export const CreateRecipe = () => {
             </button>
           </div>
 
-         
           <div>
             <label
               htmlFor="instructions"
@@ -160,7 +158,6 @@ export const CreateRecipe = () => {
             ></textarea>
           </div>
 
-          
           <div>
             <label
               htmlFor="image"
@@ -177,7 +174,6 @@ export const CreateRecipe = () => {
             />
           </div>
 
-        
           <div>
             <label
               htmlFor="cookingTime"
@@ -196,7 +192,6 @@ export const CreateRecipe = () => {
             />
           </div>
 
-        
           <div>
             <button
               type="submit"

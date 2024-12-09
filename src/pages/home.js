@@ -16,7 +16,9 @@ export const Home = () => {
       setRecipes(JSON.parse(cachedRecipes));
     } else {
       try {
-        const response = await axios.get("http://localhost:3005/recipes");
+        const response = await axios.get(
+          "https://recipe-wnrc.onrender.com/recipes"
+        );
         localStorage.setItem("recipes", JSON.stringify(response.data));
         setRecipes(response.data);
       } catch (err) {
@@ -52,10 +54,13 @@ export const Home = () => {
     }
 
     try {
-      const response = await axios.put("http://localhost:3005/recipes", {
-        recipeID,
-        userID,
-      });
+      const response = await axios.put(
+        "https://recipe-wnrc.onrender.com/recipes",
+        {
+          recipeID,
+          userID,
+        }
+      );
       setSavedRecipes(response.data.savedRecipes);
     } catch (err) {
       console.error(err);

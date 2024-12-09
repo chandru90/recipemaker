@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom"; 
+import { useParams } from "react-router-dom";
 
 export const RecipeDetail = () => {
   const [recipe, setRecipe] = useState(null);
@@ -9,7 +9,7 @@ export const RecipeDetail = () => {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3005/recipes/${recipeID}`
+          `https://recipe-wnrc.onrender.com/recipes/${recipeID}`
         );
         setRecipe(response.data);
       } catch (err) {
@@ -32,7 +32,6 @@ export const RecipeDetail = () => {
           {recipe.name}
         </h1>
 
-       
         {recipe.imageUrl && (
           <img
             src={recipe.imageUrl}
@@ -41,7 +40,6 @@ export const RecipeDetail = () => {
           />
         )}
 
-       
         <div className="instructions text-white text-lg max-w-2xl mx-auto mb-8">
           <h2 className="text-2xl font-semibold mb-4">Instructions</h2>
           <p className="text-md text-gray-200 leading-relaxed">
@@ -49,7 +47,6 @@ export const RecipeDetail = () => {
           </p>
         </div>
 
-      
         <div className="text-center mt-6 mb-8">
           <p className="text-sm text-gray-400">
             Cooking Time: {recipe.cookingTime} minutes
@@ -57,7 +54,6 @@ export const RecipeDetail = () => {
         </div>
       </div>
 
-      
       <div className="fixed top-1/4 right-4 bg-white p-6 rounded-lg shadow-lg max-w-xs w-72">
         <h2 className="text-2xl font-semibold text-center mb-4">Ingredients</h2>
         <div className="space-y-3">
