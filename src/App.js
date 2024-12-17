@@ -6,7 +6,7 @@ import { CreateRecipe } from "./pages/create-recipe";
 import { Home } from "./pages/home";
 import { SavedRecipes } from "./pages/saved-recipes";
 import { RecipeDetail } from "./pages/RecipeDetail";
-import ProtectedRoute from "./ProtectedRoute"; 
+import ProtectedRoute from "./ProtectedRoute";
 function App() {
   return (
     <div className="App">
@@ -16,7 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Auth />} />
-          
+
             <Route
               path="/create-recipe"
               element={<ProtectedRoute element={<CreateRecipe />} />}

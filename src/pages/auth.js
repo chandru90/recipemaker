@@ -27,16 +27,25 @@ export const Auth = () => {
     </div>
   );
 };
-
 const Login = ({ toggleForm }) => {
   const [_, setCookies] = useCookies(["access_token"]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!isValidEmail(username)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters.");
+      return;
+    }
 
     try {
       const result = await axios.post(
@@ -52,7 +61,13 @@ const Login = ({ toggleForm }) => {
       navigate("/");
     } catch (error) {
       console.error(error);
+      setErrorMessage("Failed to login. Please check your credentials.");
     }
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (
@@ -70,12 +85,17 @@ const Login = ({ toggleForm }) => {
           Login
         </h2>
 
+       
+        {errorMessage && (
+          <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+        )}
+
         <div className="form-group">
           <label
             htmlFor="username"
             className="text-sm font-medium text-gray-700"
           >
-            Username:
+            Username (Email):
           </label>
           <input
             type="text"
@@ -87,7 +107,7 @@ const Login = ({ toggleForm }) => {
             aria-describedby="username-helper"
           />
           <p id="username-helper" className="sr-only">
-            Please enter your username
+            Please enter your username (email)
           </p>
         </div>
 
@@ -140,6 +160,7 @@ const Login = ({ toggleForm }) => {
 const Register = ({ toggleForm }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   const [_, setCookies] = useCookies(["access_token"]);
   const navigate = useNavigate();
@@ -151,11 +172,19 @@ const Register = ({ toggleForm }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Email validation
+    if (!isEmailValid(username)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+    // Password validation
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters.");
+      return;
+    }
+
     try {
-      if (!isEmailValid(username)) {
-        alert("Please enter a valid email address.");
-        return;
-      }
       await axios.post("https://recipe-wnrc.onrender.com/auth/register", {
         username,
         password,
@@ -164,6 +193,7 @@ const Register = ({ toggleForm }) => {
       toggleForm();
     } catch (error) {
       console.error(error);
+      setErrorMessage("Failed to register. Please try again later.");
     }
   };
 
@@ -180,6 +210,11 @@ const Register = ({ toggleForm }) => {
         >
           Register
         </h2>
+
+       
+        {errorMessage && (
+          <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+        )}
 
         <div className="form-group">
           <label

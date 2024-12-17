@@ -1,5 +1,5 @@
 const RecipeCard = React.memo(({ recipe }) => {
-  // This component will only re-render when `recipe` changes
+  
   return (
     <div className="bg-white bg-opacity-90 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300">
       <Link to={`/recipe/${recipe._id}`} className="block">
