@@ -68,103 +68,95 @@ export const Home = () => {
   };
 
   const isRecipeSaved = (id) => savedRecipes.includes(id);
+return (
+  <div
+    className="min-h-screen bg-cover bg-center relative"
+    style={{ backgroundImage: `url("mealrecipe.png")` }}
+  >
+    {/* Dark overlay */}
+    <div className="absolute inset-0 bg-black/60" />
 
-  return (
-    <div
-      className="home bg-cover bg-center bg-opacity-40"
-      style={{
-        backgroundImage: `url("mealrecipe.png")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "#f0f0f0",
-        transition: "background-image 0.5s ease-in-out",
-      }}
-    >
-      <div className="bg-black bg-opacity-50 min-h-screen flex justify-center items-center p-4">
-        <div className="max-w-6xl w-full text-white">
-          <h1 className="text-4xl font-bold text-center mb-8">Recipes</h1>
+    {/* Content */}
+    <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 text-white">
+      
+      {/* Header */}
+      <h1 className="text-5xl font-bold text-center mb-10 tracking-wide">
+        Recipes
+      </h1>
 
-          {error && (
-            <div className="text-red-500 text-center mb-4">
-              <p>{error}</p>
-            </div>
-          )}
-
-          {loading ? (
-            <div className="flex flex-col justify-center items-center mt-10">
-              
-              <div className="loader"></div>
-              <p className="text-white mt-4">Loading...</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {recipes.map((recipe) => (
-                <div
-                  key={recipe._id}
-                  className="bg-white bg-opacity-90 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300"
-                >
-                  <Link to={`/recipe/${recipe._id}`} className="block">
-                    <div className="flex flex-col items-center mb-6">
-                      <h2 className="text-4xl lg:text-3xl font-semibold text-center mb-4 text-blue-500 hover:text-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg font-serif tracking-wider">
-                        {recipe.name}
-                      </h2>
-
-                      
-                      {recipe.imageUrl && (
-                        <div
-                          className="image-container"
-                          style={{
-                            width: "160px",
-                            height: "160px",
-                            position: "relative",
-                            backgroundColor: "#f0f0f0",
-                          }}
-                        >
-                          <img
-                            src={recipe.imageUrl}
-                            alt={recipe.name}
-                            className="w-full h-full object-cover rounded-lg mb-6"
-                            loading="lazy"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              borderRadius: "8px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </div>
-                      )}
-
-                      <p className="text-sm text-gray-600 mb-4 text-center">
-                        {recipe.description}
-                      </p>
-                      <p className="text-sm text-gray-600 mb-4 text-center">
-                        Cooking Time: {recipe.cookingTime} minutes
-                      </p>
-                    </div>
-                  </Link>
-
-                  <button
-                    onClick={() => saveRecipe(recipe._id)}
-                    disabled={!userID || isRecipeSaved(recipe._id)}
-                    className={`px-6 py-3 text-white font-semibold rounded-lg ${
-                      !userID || isRecipeSaved(recipe._id)
-                        ? "bg-gray-500"
-                        : "bg-blue-500 hover:bg-blue-600"
-                    } transition duration-300`}
-                  >
-                    {!userID
-                      ? "Save"
-                      : isRecipeSaved(recipe._id)
-                      ? "Saved"
-                      : "Save"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+      {/* Error */}
+      {error && (
+        <div className="text-red-400 text-center mb-6">
+          {error}
         </div>
-      </div>
+      )}
+
+      {/* Loading */}
+      {loading ? (
+        <div className="flex flex-col items-center mt-20">
+          <div className="loader" />
+          <p className="mt-4 text-white/80">Loading recipes...</p>
+        </div>
+      ) : (
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {recipes.map((recipe) => (
+            <div
+              key={recipe._id}
+              className="bg-white/95 text-gray-800 rounded-2xl shadow-lg overflow-hidden hover:scale-[1.03] transition-transform duration-300"
+            >
+              <Link to={`/recipe/${recipe._id}`} className="block">
+                
+                {/* Image */}
+                {recipe.imageUrl && (
+                  <div className="h-40 w-full overflow-hidden">
+                    <img
+                      src={recipe.imageUrl}
+                      alt={recipe.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
+                {/* Content */}
+                <div className="p-5 text-center">
+                  <h2 className="text-xl font-bold text-blue-600 mb-2">
+                    {recipe.name}
+                  </h2>
+
+                  <p className="text-sm text-gray-600 mb-2">
+                    {recipe.description}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    Cooking Time: {recipe.cookingTime} mins
+                  </p>
+                </div>
+              </Link>
+
+              {/* Button */}
+              <div className="p-4 pt-0">
+                <button
+                  onClick={() => saveRecipe(recipe._id)}
+                  disabled={!userID || isRecipeSaved(recipe._id)}
+                  className={`w-full py-2 rounded-lg font-semibold transition ${
+                    !userID || isRecipeSaved(recipe._id)
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-500 hover:bg-blue-600 text-white"
+                  }`}
+                >
+                  {!userID
+                    ? "Save"
+                    : isRecipeSaved(recipe._id)
+                    ? "Saved"
+                    : "Save"}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
 };

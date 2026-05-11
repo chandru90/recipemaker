@@ -3,6 +3,32 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
+// export const Auth = () => {
+//   const [showLogin, setShowLogin] = useState(true);
+
+//   useEffect(() => {
+//     const form = document.querySelector("form");
+//     if (form) form.focus();
+//   }, [showLogin]);
+
+//   return (
+//     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+//       <div
+//         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
+//         role="form"
+//         aria-labelledby="auth-form"
+//       >
+//         {showLogin ? (
+//           <Login toggleForm={() => setShowLogin(false)} />
+//         ) : (
+//           <Register toggleForm={() => setShowLogin(true)} />
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+
 export const Auth = () => {
   const [showLogin, setShowLogin] = useState(true);
 
@@ -12,21 +38,26 @@ export const Auth = () => {
   }, [showLogin]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
-        role="form"
-        aria-labelledby="auth-form"
-      >
-        {showLogin ? (
-          <Login toggleForm={() => setShowLogin(false)} />
-        ) : (
-          <Register toggleForm={() => setShowLogin(true)} />
-        )}
-      </div>
-    </div>
+<div
+  className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
+  style={{ backgroundImage: "url('/menu.png')" }}
+>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-white/90" />
+
+  {/* Content */}
+  <div className="relative bg-white p-8 rounded-lg shadow-lg w-full max-w-md z-10">
+    {showLogin ? (
+      <Login toggleForm={() => setShowLogin(false)} />
+    ) : (
+      <Register toggleForm={() => setShowLogin(true)} />
+    )}
+  </div>
+</div>
   );
 };
+
+
 const Login = ({ toggleForm }) => {
   const [_, setCookies] = useCookies(["access_token"]);
   const [username, setUsername] = useState("");
@@ -134,7 +165,7 @@ const Login = ({ toggleForm }) => {
 
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+          className="w-60 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
           aria-label="Login"
         >
           Login
@@ -260,7 +291,7 @@ const Register = ({ toggleForm }) => {
 
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
+          className="w-60  p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none"
           aria-label="Register"
         >
           Register

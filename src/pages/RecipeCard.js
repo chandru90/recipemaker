@@ -1,23 +1,35 @@
 const RecipeCard = React.memo(({ recipe }) => {
-  
   return (
-    <div className="bg-white bg-opacity-90 rounded-lg p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <div className="bg-white/90 rounded-lg p-6 shadow-lg hover:shadow-2xl transition duration-300">
       <Link to={`/recipe/${recipe._id}`} className="block">
-        <div className="flex flex-col items-center mb-6">
-          <h2 className="text-4xl lg:text-3xl font-semibold text-center mb-4 text-blue-500 hover:text-blue-600 transform hover:scale-105 transition-all duration-300 shadow-lg font-serif tracking-wider">
+        <div className="flex flex-col items-center mb-4">
+          
+          <h2 className="text-xl font-semibold text-center mb-3 text-blue-500 hover:text-blue-600 transition">
             {recipe.name}
           </h2>
+
           <img
             src={recipe.imageUrl}
             alt={recipe.name}
-            className="w-40 h-40 object-cover rounded-lg mb-6"
+            className="w-40 h-40 object-cover rounded-lg mb-4"
             loading="lazy"
           />
-          <p className="text-sm text-gray-600 mb-4 text-center">
-            {recipe.description}
-          </p>
-          <p className="text-sm text-gray-600 mb-4 text-center">
-            Cooking Time: {recipe.cookingTime} minutes
+
+          {/* Instructions fix */}
+          {Array.isArray(recipe.instructions) ? (
+            <ul className="text-sm text-gray-600 mb-3 text-left list-disc list-inside">
+              {recipe.instructions.slice(0, 3).map((step, i) => (
+                <li key={i}>{step}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-600 mb-3 text-center line-clamp-3">
+              {recipe.instructions || "No instructions available"}
+            </p>
+          )}
+
+          <p className="text-xs text-gray-500">
+            Cooking Time: {recipe.cookingTime} mins
           </p>
         </div>
       </Link>
