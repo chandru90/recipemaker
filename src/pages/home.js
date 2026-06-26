@@ -46,32 +46,32 @@ export const Home = () => {
     fetchSavedRecipes();
   }, [fetchRecipes, fetchSavedRecipes]);
 
-  const saveRecipe = async (recipeID) => {
-    if (!userID) {
-      alert("Please log in to save the recipe.");
-      return;
-    }
+  // const saveRecipe = async (recipeID) => {
+  //   if (!userID) {
+  //     alert("Please log in to save the recipe.");
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.put(
-        "https://recipe-wnrc.onrender.com/recipes",
-        {
-          recipeID,
-          userID,
-        }
-      );
-      setSavedRecipes(response.data.savedRecipes);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to save the recipe. Please try again later.");
-    }
-  };
+  //   try {
+  //     const response = await axios.put(
+  //       "https://recipe-wnrc.onrender.com/recipes",
+  //       {
+  //         recipeID,
+  //         userID,
+  //       }
+  //     );
+  //     setSavedRecipes(response.data.savedRecipes);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setError("Failed to save the recipe. Please try again later.");
+  //   }
+  // };
 
   const isRecipeSaved = (id) => savedRecipes.includes(id);
 return (
   <div
     className="min-h-screen bg-cover bg-center relative"
-    style={{ backgroundImage: `url("mealrecipe.png")` }}
+    style={{ backgroundImage: `url("mealrecipe.jpg")` }}
   >
     {/* Dark overlay */}
     <div className="absolute inset-0 bg-black/60" />
@@ -112,7 +112,6 @@ return (
                     <img
                       src={recipe.imageUrl}
                       alt={recipe.name}
-                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
                   </div>

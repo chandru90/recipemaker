@@ -7,6 +7,9 @@ import { Home } from "./pages/home";
 import { SavedRecipes } from "./pages/saved-recipes";
 import { RecipeDetail } from "./pages/RecipeDetail";
 import ProtectedRoute from "./ProtectedRoute";
+import Recipeplanner from "./pages/Recipeplanner";
+import FoodStory from "./pages/FoodStory";
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +18,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+             <Route path="/generaterecipe" element={<Recipeplanner />} />
+             <Route path="/foodstory" element={<FoodStory />}/>
             <Route path="/auth" element={<Auth />} />
 
             <Route
@@ -26,7 +31,15 @@ function App() {
               element={<ProtectedRoute element={<SavedRecipes />} />}
             />
             <Route path="/recipe/:recipeID" element={<RecipeDetail />} />
+            <Route
+              path="/saved-recipes"
+              element={<ProtectedRoute element={<SavedRecipes />} />}
+            />
+
+             
+            <Route path="/generaterecipe" element={<Recipeplanner />} />
           </Routes>
+
         </Router>
       </div>
     </div>

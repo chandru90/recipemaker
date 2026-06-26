@@ -41,6 +41,17 @@ export const Navbar = () => {
           >
             Saved Recipes
           </Link>
+          <Link
+            to="/foodstory"
+            className="text-sm text-gray-300 hover:text-white transition duration-200"
+          >Food Story</Link>
+              <Link
+            to="/generaterecipe"
+            className="text-sm text-gray-300 hover:text-white transition duration-200"
+          >
+             
+            generate recipes
+          </Link>
 
           {!cookies.access_token ? (
             <Link

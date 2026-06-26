@@ -12,6 +12,7 @@ export const RecipeDetail = () => {
         const response = await axios.get(
           `https://recipe-wnrc.onrender.com/recipes/${recipeID}`
         );
+        console.log(response.data)
         setRecipe(response.data);
       } catch (err) {
         console.log(err);
@@ -21,15 +22,7 @@ export const RecipeDetail = () => {
     fetchRecipe();
   }, [recipeID]);
 
-  // Loading state
-  if (!recipe) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-600">
-        Loading...
-      </div>
-    );
-  }
-
+  
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
