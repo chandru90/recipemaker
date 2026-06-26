@@ -495,7 +495,7 @@ const Recipeplanner = () => {
 
 
       const response = await axios.get(
-        "https://recipe-wnrc.onrender.com/generaterecipe",
+        "https://recipe-wnrc.onrender.com/recipe/generaterecipe",
         {
           params:{
             ingredient,

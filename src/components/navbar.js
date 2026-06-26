@@ -50,7 +50,7 @@ export const Navbar = () => {
             className="text-sm text-gray-300 hover:text-white transition duration-200"
           >
              
-            generate recipes
+            generate recipes 
           </Link>
 
           {!cookies.access_token ? (
