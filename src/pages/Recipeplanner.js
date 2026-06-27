@@ -697,8 +697,6 @@
 
 
 
-
-
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -728,11 +726,14 @@ const Recipeplanner = () => {
         }
       );
 
-      console.log("API Response:", response.data);
+
+      console.log("API RESPONSE:", response.data);
+
 
       let data = response.data;
 
-      // Convert JSON string into object
+
+      // handle string json response
       if (typeof data === "string") {
         try {
           data = data
@@ -741,195 +742,356 @@ const Recipeplanner = () => {
             .trim();
 
           data = JSON.parse(data);
-        } catch (err) {
-          console.log("JSON Parse Error", err);
+
+        } catch (e) {
+          console.log("JSON ERROR", e);
         }
       }
 
+
+      // Your API returns array directly
       if (Array.isArray(data)) {
+
         setRecipes(data);
-      } else if (Array.isArray(data.recipes)) {
+
+      } 
+      else if (Array.isArray(data.recipes)) {
+
         setRecipes(data.recipes);
-      } else if (Array.isArray(data.data)) {
-        setRecipes(data.data);
-      } else if (data.recipe) {
-        setRecipes([data.recipe]);
-      } else {
-        console.log("Unknown response:", data);
-        setError("No recipes found.");
+
       }
+      else {
+
+        setError("No recipes found");
+
+      }
+
+
     } catch (err) {
+
       console.log(err);
 
       if (err.response) {
-        console.log(err.response.data);
-        setError(err.response.data.message || "Server Error");
+        setError(
+          err.response.data?.message ||
+          "Server Error"
+        );
       } else {
-        setError("Unable to connect to server.");
+        setError("Unable to connect server");
       }
+
     }
+
 
     setLoading(false);
   };
 
+
+
   return (
+
     <div
       style={{
-        maxWidth: "1200px",
-        margin: "20px auto",
-        padding: "20px",
-        fontFamily: "Arial",
+        maxWidth:"1200px",
+        margin:"20px auto",
+        padding:"20px",
+        fontFamily:"Arial"
       }}
     >
-      <h1>🍽 Weekly Recipe Planner</h1>
+
+
+      <h1>
+        🍽 Weekly Recipe Planner
+      </h1>
+
+
 
       <div
         style={{
-          display: "flex",
-          gap: "10px",
-          flexWrap: "wrap",
-          marginBottom: "20px",
+          display:"flex",
+          gap:"10px",
+          flexWrap:"wrap",
+          marginBottom:"20px"
         }}
       >
+
+
         <input
-          type="text"
           placeholder="Ingredient"
           value={ingredient}
-          onChange={(e) => setIngredient(e.target.value)}
+          onChange={(e)=>setIngredient(e.target.value)}
           style={{
-            flex: 1,
-            padding: "10px",
+            padding:"10px",
+            flex:1
           }}
         />
 
+
+
         <select
           value={group}
-          onChange={(e) => setGroup(e.target.value)}
+          onChange={(e)=>setGroup(e.target.value)}
         >
-          <option value="all">All</option>
-          <option value="kids">Kids</option>
-          <option value="adult">Adults</option>
-          <option value="elderly">Elderly</option>
-          <option value="diabetic">Diabetic</option>
-          <option value="budgetfriendly">Budget Friendly</option>
+          <option value="all">
+            All
+          </option>
+
+          <option value="kids">
+            Kids
+          </option>
+
+          <option value="adult">
+            Adult
+          </option>
+
+          <option value="elderly">
+            Elderly
+          </option>
+
+          <option value="diabetic">
+            Diabetic
+          </option>
+
+          <option value="budgetfriendly">
+            Budget Friendly
+          </option>
+
         </select>
+
+
 
         <select
           value={cuisine}
-          onChange={(e) => setCuisine(e.target.value)}
+          onChange={(e)=>setCuisine(e.target.value)}
         >
-          <option value="balanced">Balanced</option>
-          <option value="northindian">North Indian</option>
-          <option value="southindian">South Indian</option>
-          <option value="italian">Italian</option>
-          <option value="chinese">Chinese</option>
-          <option value="mexican">Mexican</option>
+
+          <option value="balanced">
+            Balanced
+          </option>
+
+          <option value="northindian">
+            North Indian
+          </option>
+
+          <option value="southindian">
+            South Indian
+          </option>
+
+          <option value="italian">
+            Italian
+          </option>
+
+          <option value="chinese">
+            Chinese
+          </option>
+
+          <option value="mexican">
+            Mexican
+          </option>
+
         </select>
+
+
 
         <button
           onClick={handlerecipegenerate}
           disabled={loading}
         >
-          {loading ? "Generating..." : "Generate Recipes"}
+
+          {
+            loading
+            ? "Generating..."
+            : "Generate Recipes"
+          }
+
         </button>
+
+
       </div>
 
-      {error && (
-        <div style={{ color: "red", marginBottom: "20px" }}>
+
+
+
+      {
+        error &&
+        <h3 style={{color:"red"}}>
           {error}
-        </div>
-      )}
+        </h3>
+      }
+
+
+
+
 
       <div
         style={{
-          display: "grid",
+          display:"grid",
           gridTemplateColumns:
-            "repeat(auto-fit,minmax(320px,1fr))",
-          gap: "20px",
+          "repeat(auto-fit,minmax(350px,1fr))",
+          gap:"20px"
         }}
       >
-        {recipes.map((recipe, index) => (
+
+
+
+      {
+        recipes.map((day,index)=>(
+
+
           <div
             key={index}
             style={{
-              border: "1px solid #ddd",
-              borderRadius: "10px",
-              padding: "20px",
-              background: "#fff",
-              boxShadow: "0 2px 8px rgba(0,0,0,.15)",
+              border:"1px solid #ddd",
+              borderRadius:"12px",
+              padding:"20px",
+              background:"#fff",
+              boxShadow:
+              "0 3px 10px rgba(0,0,0,.15)"
             }}
           >
+
+
             <h2>
-              {recipe.title ||
-                recipe.recipeTitle ||
-                recipe.name ||
-                "Recipe"}
+              📅 {day.day}
             </h2>
 
-            <p>
-              <b>Category:</b>{" "}
-              {recipe.category ||
-                recipe.mealType ||
-                "General"}
-            </p>
 
-            <p>
-              <b>Calories:</b>{" "}
-              {recipe.calories ||
-                recipe.energy ||
-                "N/A"}
-            </p>
 
-            <h3>Ingredients</h3>
 
-            {Array.isArray(recipe.ingredients) ? (
-              <ul>
-                {recipe.ingredients.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            ) : (
-              <pre style={{ whiteSpace: "pre-wrap" }}>
-                {recipe.ingredients ||
-                  recipe.recipeIngredients ||
-                  "No ingredients"}
-              </pre>
-            )}
+            {
+              ["breakfast","lunch","dinner"]
+              .map((meal)=>(
 
-            <h3>Instructions</h3>
 
-            <pre style={{ whiteSpace: "pre-wrap" }}>
-              {recipe.instructions ||
-                recipe.recipeInstructions ||
-                "No instructions"}
-            </pre>
+                <div key={meal}>
 
-            <h3>Nutrition</h3>
 
-            {Array.isArray(recipe.nutritionalinfo) ? (
-              <ul>
-                {recipe.nutritionalinfo.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            ) : (
-              <pre style={{ whiteSpace: "pre-wrap" }}>
-                {recipe.nutritionalinfo ||
-                  recipe.nutrition ||
-                  "No nutrition information"}
-              </pre>
-            )}
+                  <h3>
+                    🍴 {meal.toUpperCase()}
+                  </h3>
 
-            {recipe.estimatedCost && (
-              <p>
-                <b>Estimated Cost:</b> {recipe.estimatedCost}
-              </p>
-            )}
+
+
+                  <h4>
+                    {
+                      day[meal]?.title ||
+                      "No title"
+                    }
+                  </h4>
+
+
+
+
+                  <p>
+
+                    <b>
+                      Calories:
+                    </b>
+
+                    {" "}
+
+                    {
+                      day[meal]?.calories ||
+                      "N/A"
+                    }
+
+                  </p>
+
+
+
+
+
+                  <b>
+                    Ingredients
+                  </b>
+
+
+                  <ul>
+
+                    {
+                      day[meal]?.ingredients?.map(
+                        (item,i)=>(
+
+                          <li key={i}>
+                            {item}
+                          </li>
+
+                        )
+                      )
+                    }
+
+                  </ul>
+
+
+
+
+
+                  <b>
+                    Instructions
+                  </b>
+
+
+                  <p>
+                    {
+                      day[meal]?.instructions ||
+                      "No instructions"
+                    }
+                  </p>
+
+
+
+
+
+
+                  <b>
+                    Nutrition
+                  </b>
+
+
+                  <ul>
+
+                  {
+                    day[meal]?.nutritionalinfo?.map(
+                      (item,i)=>(
+
+                        <li key={i}>
+                          {item}
+                        </li>
+
+                      )
+                    )
+                  }
+
+                  </ul>
+
+
+                  <hr/>
+
+
+                </div>
+
+
+              ))
+            }
+
+
+
           </div>
-        ))}
+
+
+        ))
+      }
+
+
+
       </div>
+
+
     </div>
+
   );
+
 };
+
 
 export default Recipeplanner;
