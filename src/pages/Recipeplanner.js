@@ -507,7 +507,7 @@ const Recipeplanner = () => {
 
 
       let result = response.data;
-
+console.log("response ",response.data)
 
       if(typeof result === "string"){
 
@@ -594,8 +594,7 @@ placeholder="Search ingredient"
 
 value={ingredient}
 
-onChange={
-e=>setIngredient(e.target.value)
+onChange={e=>setIngredient(e.target.value)
 }
 
 style={{
