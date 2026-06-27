@@ -471,6 +471,234 @@
 
 
 
+// import React, { useState } from "react";
+// import axios from "axios";
+
+// const Recipeplanner = () => {
+//   const [ingredient, setIngredient] = useState("");
+//   const [group, setGroup] = useState("all");
+//   const [cuisine, setCuisine] = useState("balanced");
+
+//   const [loading, setLoading] = useState(false);
+//   const [recipes, setRecipes] = useState([]);
+//   const [error, setError] = useState("");
+
+//   const handlerecipegenerate = async () => {
+//     setLoading(true);
+//     setError("");
+//     setRecipes([]);
+
+//     try {
+//       const response = await axios.get(
+//         "https://recipe-wnrc.onrender.com/recipes/generaterecipe",
+//         {
+//           params: {
+//             ingredient,
+//             group,
+//             cuisine,
+//           },
+//         }
+//       );
+
+//       console.log("API Response:", response.data);
+
+//       let result = response.data;
+
+//       // If backend returns JSON as string
+//       if (typeof result === "string") {
+//         try {
+//           result = result
+//             .replace(/```json/g, "")
+//             .replace(/```/g, "")
+//             .trim();
+
+//           result = JSON.parse(result);
+//         } catch (e) {
+//           console.log("JSON Parse Error:", e);
+//         }
+//       }
+
+//       if (Array.isArray(result)) {
+//         setRecipes(result);
+//       } else if (result.recipes && Array.isArray(result.recipes)) {
+//         setRecipes(result.recipes);
+//       } else if (result.data && Array.isArray(result.data)) {
+//         setRecipes(result.data);
+//       } else {
+//         console.log("Unexpected Response:", result);
+//         setRecipes([]);
+//       }
+//     } catch (err) {
+//       console.log(err);
+
+//       if (err.response) {
+//         console.log("Server Error:", err.response.data);
+//         setError(err.response.data.message || "Server Error");
+//       } else {
+//         setError("Failed to generate recipes");
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div
+//       style={{
+//         maxWidth: "1200px",
+//         margin: "auto",
+//         padding: "20px",
+//         fontFamily: "Arial",
+//       }}
+//     >
+//       <h1>🍽 Weekly Recipe Planner</h1>
+
+//       <div
+//         style={{
+//           display: "flex",
+//           gap: "10px",
+//           marginBottom: "20px",
+//           flexWrap: "wrap",
+//         }}
+//       >
+//         <input
+//           type="text"
+//           placeholder="Search ingredient"
+//           value={ingredient}
+//           onChange={(e) => setIngredient(e.target.value)}
+//           style={{
+//             padding: "12px",
+//             flex: 1,
+//             minWidth: "250px",
+//           }}
+//         />
+
+//         <select
+//           value={group}
+//           onChange={(e) => setGroup(e.target.value)}
+//           style={{ padding: "12px" }}
+//         >
+//           <option value="all">All</option>
+//           <option value="kids">Kids</option>
+//           <option value="adult">Adults</option>
+//           <option value="elderly">Elderly</option>
+//           <option value="diabetic">Diabetic</option>
+//           <option value="budgetfriendly">Budget Friendly</option>
+//         </select>
+
+//         <select
+//           value={cuisine}
+//           onChange={(e) => setCuisine(e.target.value)}
+//           style={{ padding: "12px" }}
+//         >
+//           <option value="balanced">Balanced</option>
+//           <option value="northindian">North Indian</option>
+//           <option value="southindian">South Indian</option>
+//           <option value="italian">Italian</option>
+//           <option value="chinese">Chinese</option>
+//           <option value="mexican">Mexican</option>
+//         </select>
+
+//         <button
+//           onClick={handlerecipegenerate}
+//           disabled={loading}
+//           style={{
+//             padding: "12px 20px",
+//             background: "#27ae60",
+//             color: "#fff",
+//             border: "none",
+//             borderRadius: "8px",
+//             cursor: "pointer",
+//           }}
+//         >
+//           {loading ? "Generating..." : "Generate Recipes"}
+//         </button>
+//       </div>
+
+//       {error && (
+//         <p style={{ color: "red", fontWeight: "bold" }}>{error}</p>
+//       )}
+
+//       {!loading && recipes.length === 0 && !error && (
+//         <p>No recipes found.</p>
+//       )}
+
+//       <div
+//         style={{
+//           display: "grid",
+//           gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+//           gap: "20px",
+//         }}
+//       >
+//         {recipes.map((recipe, index) => (
+//           <div
+//             key={index}
+//             style={{
+//               background: "#fff",
+//               padding: "20px",
+//               borderRadius: "12px",
+//               boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+//             }}
+//           >
+//             <h2>{recipe.title || "Recipe"}</h2>
+
+//             <p>
+//               <strong>Category:</strong>{" "}
+//               {recipe.category || "General"}
+//             </p>
+
+//             <p>
+//               <strong>Calories:</strong>{" "}
+//               {recipe.calories || "N/A"} kcal
+//             </p>
+
+//             <h3>Ingredients</h3>
+
+//             {Array.isArray(recipe.ingredients) ? (
+//               <ul>
+//                 {recipe.ingredients.map((item, i) => (
+//                   <li key={i}>{item}</li>
+//                 ))}
+//               </ul>
+//             ) : (
+//               <p>{recipe.ingredients || "No ingredients"}</p>
+//             )}
+
+//             <h3>Instructions</h3>
+
+//             <p>{recipe.instructions || "No instructions available"}</p>
+
+//             <h3>Nutrition</h3>
+
+//             {Array.isArray(recipe.nutritionalinfo) ? (
+//               <ul>
+//                 {recipe.nutritionalinfo.map((item, i) => (
+//                   <li key={i}>{item}</li>
+//                 ))}
+//               </ul>
+//             ) : (
+//               <p>{recipe.nutritionalinfo || "No nutrition data"}</p>
+//             )}
+
+//             {recipe.estimatedCost && (
+//               <p>
+//                 <strong>Estimated Cost:</strong>{" "}
+//                 {recipe.estimatedCost}
+//               </p>
+//             )}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Recipeplanner;
+
+
+
+
+
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -502,51 +730,53 @@ const Recipeplanner = () => {
 
       console.log("API Response:", response.data);
 
-      let result = response.data;
+      let data = response.data;
 
-      // If backend returns JSON as string
-      if (typeof result === "string") {
+      // Convert JSON string into object
+      if (typeof data === "string") {
         try {
-          result = result
+          data = data
             .replace(/```json/g, "")
             .replace(/```/g, "")
             .trim();
 
-          result = JSON.parse(result);
-        } catch (e) {
-          console.log("JSON Parse Error:", e);
+          data = JSON.parse(data);
+        } catch (err) {
+          console.log("JSON Parse Error", err);
         }
       }
 
-      if (Array.isArray(result)) {
-        setRecipes(result);
-      } else if (result.recipes && Array.isArray(result.recipes)) {
-        setRecipes(result.recipes);
-      } else if (result.data && Array.isArray(result.data)) {
-        setRecipes(result.data);
+      if (Array.isArray(data)) {
+        setRecipes(data);
+      } else if (Array.isArray(data.recipes)) {
+        setRecipes(data.recipes);
+      } else if (Array.isArray(data.data)) {
+        setRecipes(data.data);
+      } else if (data.recipe) {
+        setRecipes([data.recipe]);
       } else {
-        console.log("Unexpected Response:", result);
-        setRecipes([]);
+        console.log("Unknown response:", data);
+        setError("No recipes found.");
       }
     } catch (err) {
       console.log(err);
 
       if (err.response) {
-        console.log("Server Error:", err.response.data);
+        console.log(err.response.data);
         setError(err.response.data.message || "Server Error");
       } else {
-        setError("Failed to generate recipes");
+        setError("Unable to connect to server.");
       }
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
     <div
       style={{
         maxWidth: "1200px",
-        margin: "auto",
+        margin: "20px auto",
         padding: "20px",
         fontFamily: "Arial",
       }}
@@ -557,26 +787,24 @@ const Recipeplanner = () => {
         style={{
           display: "flex",
           gap: "10px",
-          marginBottom: "20px",
           flexWrap: "wrap",
+          marginBottom: "20px",
         }}
       >
         <input
           type="text"
-          placeholder="Search ingredient"
+          placeholder="Ingredient"
           value={ingredient}
           onChange={(e) => setIngredient(e.target.value)}
           style={{
-            padding: "12px",
             flex: 1,
-            minWidth: "250px",
+            padding: "10px",
           }}
         />
 
         <select
           value={group}
           onChange={(e) => setGroup(e.target.value)}
-          style={{ padding: "12px" }}
         >
           <option value="all">All</option>
           <option value="kids">Kids</option>
@@ -589,7 +817,6 @@ const Recipeplanner = () => {
         <select
           value={cuisine}
           onChange={(e) => setCuisine(e.target.value)}
-          style={{ padding: "12px" }}
         >
           <option value="balanced">Balanced</option>
           <option value="northindian">North Indian</option>
@@ -602,31 +829,22 @@ const Recipeplanner = () => {
         <button
           onClick={handlerecipegenerate}
           disabled={loading}
-          style={{
-            padding: "12px 20px",
-            background: "#27ae60",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-          }}
         >
           {loading ? "Generating..." : "Generate Recipes"}
         </button>
       </div>
 
       {error && (
-        <p style={{ color: "red", fontWeight: "bold" }}>{error}</p>
-      )}
-
-      {!loading && recipes.length === 0 && !error && (
-        <p>No recipes found.</p>
+        <div style={{ color: "red", marginBottom: "20px" }}>
+          {error}
+        </div>
       )}
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(320px,1fr))",
           gap: "20px",
         }}
       >
@@ -634,22 +852,32 @@ const Recipeplanner = () => {
           <div
             key={index}
             style={{
-              background: "#fff",
+              border: "1px solid #ddd",
+              borderRadius: "10px",
               padding: "20px",
-              borderRadius: "12px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              background: "#fff",
+              boxShadow: "0 2px 8px rgba(0,0,0,.15)",
             }}
           >
-            <h2>{recipe.title || "Recipe"}</h2>
+            <h2>
+              {recipe.title ||
+                recipe.recipeTitle ||
+                recipe.name ||
+                "Recipe"}
+            </h2>
 
             <p>
-              <strong>Category:</strong>{" "}
-              {recipe.category || "General"}
+              <b>Category:</b>{" "}
+              {recipe.category ||
+                recipe.mealType ||
+                "General"}
             </p>
 
             <p>
-              <strong>Calories:</strong>{" "}
-              {recipe.calories || "N/A"} kcal
+              <b>Calories:</b>{" "}
+              {recipe.calories ||
+                recipe.energy ||
+                "N/A"}
             </p>
 
             <h3>Ingredients</h3>
@@ -661,12 +889,20 @@ const Recipeplanner = () => {
                 ))}
               </ul>
             ) : (
-              <p>{recipe.ingredients || "No ingredients"}</p>
+              <pre style={{ whiteSpace: "pre-wrap" }}>
+                {recipe.ingredients ||
+                  recipe.recipeIngredients ||
+                  "No ingredients"}
+              </pre>
             )}
 
             <h3>Instructions</h3>
 
-            <p>{recipe.instructions || "No instructions available"}</p>
+            <pre style={{ whiteSpace: "pre-wrap" }}>
+              {recipe.instructions ||
+                recipe.recipeInstructions ||
+                "No instructions"}
+            </pre>
 
             <h3>Nutrition</h3>
 
@@ -677,13 +913,16 @@ const Recipeplanner = () => {
                 ))}
               </ul>
             ) : (
-              <p>{recipe.nutritionalinfo || "No nutrition data"}</p>
+              <pre style={{ whiteSpace: "pre-wrap" }}>
+                {recipe.nutritionalinfo ||
+                  recipe.nutrition ||
+                  "No nutrition information"}
+              </pre>
             )}
 
             {recipe.estimatedCost && (
               <p>
-                <strong>Estimated Cost:</strong>{" "}
-                {recipe.estimatedCost}
+                <b>Estimated Cost:</b> {recipe.estimatedCost}
               </p>
             )}
           </div>
