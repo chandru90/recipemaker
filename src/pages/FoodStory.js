@@ -10,14 +10,7 @@ export const FoodStory = () => {
 
   const timerRef = useRef(null);
 
-  useEffect(async()=>{
-
-try{
-  const resp=await fetch('https://crudcrud.com/api/f9099525e985443097e6bcbb1cd33738/createstory');
-  const data=await resp.json();
-}
-
-  },[])
+  
   const speakText = (text, id) => {
     window.speechSynthesis.cancel();
 
