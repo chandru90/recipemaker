@@ -697,399 +697,1173 @@
 
 
 
+
+
+// import React, { useState } from "react";
+// import axios from "axios";
+
+// const Recipeplanner = () => {
+//   const [ingredient, setIngredient] = useState("");
+//   const [group, setGroup] = useState("all");
+//   const [cuisine, setCuisine] = useState("balanced");
+
+//   const [loading, setLoading] = useState(false);
+//   const [recipes, setRecipes] = useState([]);
+//   const [error, setError] = useState("");
+
+//   const handlerecipegenerate = async () => {
+//     setLoading(true);
+//     setError("");
+//     setRecipes([]);
+
+//     try {
+//       const response = await axios.get(
+//         "https://recipe-wnrc.onrender.com/recipes/generaterecipe",
+//         {
+//           params: {
+//             ingredient,
+//             group,
+//             cuisine,
+//           },
+//         }
+//       );
+
+
+//       console.log("API RESPONSE:", response.data);
+
+
+//       let data = response.data;
+
+
+//       // handle string json response
+//       if (typeof data === "string") {
+//         try {
+//           data = data
+//             .replace(/```json/g, "")
+//             .replace(/```/g, "")
+//             .trim();
+
+//           data = JSON.parse(data);
+
+//         } catch (e) {
+//           console.log("JSON ERROR", e);
+//         }
+//       }
+
+
+//       // Your API returns array directly
+//       if (Array.isArray(data)) {
+
+//         setRecipes(data);
+
+//       } 
+//       else if (Array.isArray(data.recipes)) {
+
+//         setRecipes(data.recipes);
+
+//       }
+//       else {
+
+//         setError("No recipes found");
+
+//       }
+
+
+//     } catch (err) {
+
+//       console.log(err);
+
+//       if (err.response) {
+//         setError(
+//           err.response.data?.message ||
+//           "Server Error"
+//         );
+//       } else {
+//         setError("Unable to connect server");
+//       }
+
+//     }
+
+
+//     setLoading(false);
+//   };
+
+// const hanpersonalise=async()=>{
+
+
+// }
+//   return (
+
+//     <div
+//       style={{
+//         maxWidth:"1200px",
+//         margin:"20px auto",
+//         padding:"20px",
+//         fontFamily:"Arial"
+//       }}
+//     >
+
+
+//   <div
+//   style={{
+//     textAlign: "center",
+//     marginBottom: "40px",
+//   }}
+// >
+//   <h1
+//     style={{
+//       fontSize: "42px",
+//       color: "#2E7D32",
+//       marginBottom: "10px",
+//     }}
+//   >
+//     🍽 Weekly Recipe Planner
+//   </h1>
+
+//   <p
+//     style={{
+//       color: "#666",
+//       fontSize: "18px",
+//     }}
+//   >
+//     AI Generated Healthy Weekly Meal Plan
+//   </p>
+// </div>
+
+
+
+//       <div
+//        style={{
+//     flex:1,
+//     padding:"14px",
+//     borderRadius:"12px",
+//     border:"1px solid #ddd",
+//     fontSize:"16px",
+//     outline:"none"
+// }}
+//       >
+        
+
+
+//         <input
+//           placeholder=" Search based on Ingredient"
+//           value={ingredient}
+//           onChange={(e)=>setIngredient(e.target.value)}
+//          style={{
+//     flex:1,
+//     padding:"14px",
+//     borderRadius:"12px",
+//     border:"1px solid #ddd",
+//     fontSize:"16px",
+//     outline:"none"
+// }}
+//         />
+
+
+
+//         <select
+//           value={group}
+//           onChange={(e)=>setGroup(e.target.value)}
+//           style={{
+//     flex:1,
+//     padding:"14px",
+//     borderRadius:"12px",
+//     border:"1px solid #ddd",
+//     fontSize:"16px",
+//     outline:"none"
+// }}
+//         >
+//           <option value="all">
+//             All
+//           </option>
+
+//           <option value="kids">
+//             Kids
+//           </option>
+
+//           <option value="adult">
+//             Adult
+//           </option>
+
+//           <option value="elderly">
+//             Elderly
+//           </option>
+
+//           <option value="diabetic">
+//             Diabetic
+//           </option>
+
+//           <option value="budgetfriendly">
+//             Budget Friendly
+//           </option>
+
+//         </select>
+
+// <button onClick={handlepersonalise}>
+// personalise
+// </button>
+
+//         <select
+//           value={cuisine}
+//           onChange={(e)=>setCuisine(e.target.value)}
+//           style={{
+//     flex:1,
+//     padding:"14px",
+//     borderRadius:"12px",
+//     border:"1px solid #ddd",
+//     fontSize:"16px",
+//     outline:"none"
+// }}
+//         >
+
+//           <option value="balanced">
+//             Balanced
+//           </option>
+
+//           <option value="northindian">
+//             North Indian
+//           </option>
+
+//           <option value="southindian">
+//             South Indian
+//           </option>
+
+//           <option value="italian">
+//             Italian
+//           </option>
+
+//           <option value="chinese">
+//             Chinese
+//           </option>
+
+//           <option value="mexican">
+//             Mexican
+//           </option>
+
+//         </select>
+
+
+
+//         <button
+//           onClick={handlerecipegenerate}
+//           disabled={loading}
+//           style={{
+//     flex:1,
+//     padding:"14px",
+//     borderRadius:"12px",
+//     border:"1px solid #ddd",
+//     fontSize:"16px",
+//     outline:"none"
+// }}
+//         >
+
+//           {
+//             loading
+//             ? "Generating..."
+//             : "Generate Recipes"
+//           }
+
+//         </button>
+
+
+//       </div>
+
+
+
+
+//       {
+//         error &&
+//         <h3 style={{color:"red"}}>
+//           {error}
+//         </h3>
+//       }
+
+
+
+
+
+//       <div
+//         style={{
+//           display:"grid",
+//           gridTemplateColumns:
+//           "repeat(auto-fit,minmax(350px,1fr))",
+//           gap:"20px"
+//         }}
+//       >
+
+
+
+//       {
+//         recipes.map((day,index)=>(
+
+
+//           <div
+//             key={index}
+//            style={{
+//     background:"#fff",
+//     borderRadius:"20px",
+//     overflow:"hidden",
+//     boxShadow:"0 10px 30px rgba(0,0,0,.08)",
+//     transition:"0.3s",
+//     padding:"25px"
+// }}
+//           >
+
+
+//             <h2>
+//               📅 {day.day}
+//             </h2>
+
+
+
+
+//             {
+//               ["breakfast","lunch","dinner"]
+//               .map((meal)=>(
+
+
+//                 <div key={meal}>
+
+
+//                   <h3>
+//                     🍴 {meal.toUpperCase()}
+//                   </h3>
+
+
+
+//                   <h4>
+//                     {
+//                       day[meal]?.title ||
+//                       "No title"
+//                     }
+//                   </h4>
+
+
+
+
+//                   <p>
+
+//                     <b>
+//                       Calories:
+//                     </b>
+
+//                     {" "}
+
+//                     {
+//                       day[meal]?.calories ||
+//                       "N/A"
+//                     }
+
+//                   </p>
+
+
+
+
+
+//                   <b>
+//                     Ingredients
+//                   </b>
+
+
+//                   <ul>
+
+//                     {
+//                       day[meal]?.ingredients?.map(
+//                         (item,i)=>(
+
+//                           <li key={i}>
+//                             {item}
+//                           </li>
+
+//                         )
+//                       )
+//                     }
+
+//                   </ul>
+
+
+
+
+
+//                   <b>
+//                     Instructions
+//                   </b>
+
+
+//                   <p>
+//                     {
+//                       day[meal]?.instructions ||
+//                       "No instructions"
+//                     }
+//                   </p>
+
+
+
+
+
+
+//                   <b>
+//                     Nutrition
+//                   </b>
+
+
+//                   <ul>
+
+//                   {
+//                     day[meal]?.nutritionalinfo?.map(
+//                       (item,i)=>(
+
+//                         <li key={i}>
+//                           {item}
+//                         </li>
+
+//                       )
+//                     )
+//                   }
+
+//                   </ul>
+
+
+//                   <hr/>
+
+
+//                 </div>
+
+
+//               ))
+//             }
+
+
+
+//           </div>
+
+
+//         ))
+//       }
+
+
+
+//       </div>
+
+
+//     </div>
+
+//   );
+
+// };
+
+
+// export default Recipeplanner;
+
+
+
+
+
 import React, { useState } from "react";
 import axios from "axios";
 
 const Recipeplanner = () => {
-  const [ingredient, setIngredient] = useState("");
-  const [group, setGroup] = useState("all");
-  const [cuisine, setCuisine] = useState("balanced");
 
-  const [loading, setLoading] = useState(false);
-  const [recipes, setRecipes] = useState([]);
-  const [error, setError] = useState("");
+  const [ingredient,setIngredient] = useState("");
+  const [group,setGroup] = useState("all");
+  const [cuisine,setCuisine] = useState("balanced");
 
-  const handlerecipegenerate = async () => {
+  const [loading,setLoading] = useState(false);
+  const [recipes,setRecipes] = useState([]);
+  const [error,setError] = useState("");
+
+  // Personalise toggle
+  const [showPersonalise,setShowPersonalise] = useState(false);
+
+
+  // Personalise data
+  const [preferences,setPreferences] = useState({
+    habits:"",
+    foods:"",
+    restrictions:"",
+    goal:"",
+    age:"",
+    weight:""
+  });
+
+
+
+  const handleChange=(e)=>{
+
+    setPreferences({
+      ...preferences,
+      [e.target.name]:e.target.value
+    });
+
+  };
+
+
+
+  // const savePreferences=()=>{
+
+  //   localStorage.setItem(
+  //     "preferences",
+  //     JSON.stringify(preferences)
+  //   );
+
+  //   alert("Preferences Saved");
+
+  // };
+
+
+
+
+  const handlerecipegenerate = async()=>{
+
     setLoading(true);
     setError("");
     setRecipes([]);
 
-    try {
+
+    try{
+
+
+      const saved =
+      JSON.parse(
+        localStorage.getItem("preferences")
+      ) || {};
+
+
+
       const response = await axios.get(
         "https://recipe-wnrc.onrender.com/recipes/generaterecipe",
+   
         {
-          params: {
+          params:{
             ingredient,
             group,
             cuisine,
-          },
+         
+            ...saved
+          }
         }
       );
 
 
-      console.log("API RESPONSE:", response.data);
+
+      let data=response.data;
 
 
-      let data = response.data;
+      if(typeof data==="string"){
 
+        data=data
+        .replace(/```json/g,"")
+        .replace(/```/g,"")
+        .trim();
 
-      // handle string json response
-      if (typeof data === "string") {
-        try {
-          data = data
-            .replace(/```json/g, "")
-            .replace(/```/g, "")
-            .trim();
+        data=JSON.parse(data);
 
-          data = JSON.parse(data);
-
-        } catch (e) {
-          console.log("JSON ERROR", e);
-        }
       }
 
 
-      // Your API returns array directly
-      if (Array.isArray(data)) {
 
+      if(Array.isArray(data))
+      {
         setRecipes(data);
+      }
 
-      } 
-      else if (Array.isArray(data.recipes)) {
-
+      else if(Array.isArray(data.recipes))
+      {
         setRecipes(data.recipes);
-
       }
-      else {
 
+      else
+      {
         setError("No recipes found");
-
       }
 
 
-    } catch (err) {
+
+    }
+    catch(err){
 
       console.log(err);
-
-      if (err.response) {
-        setError(
-          err.response.data?.message ||
-          "Server Error"
-        );
-      } else {
-        setError("Unable to connect server");
-      }
+      setError("Unable to connect server");
 
     }
 
 
     setLoading(false);
+
   };
 
 
 
-  return (
 
-    <div
-      style={{
-        maxWidth:"1200px",
-        margin:"20px auto",
-        padding:"20px",
-        fontFamily:"Arial"
-      }}
-    >
 
+return (
 
-      <h1>
-        🍽 Weekly Recipe Planner
-      </h1>
+<div
+style={{
+maxWidth:"1200px",
+margin:"20px auto",
+padding:"20px",
+fontFamily:"Arial"
+}}
+>
 
 
+<div
+style={{
+textAlign:"center",
+marginBottom:"30px"
+}}
+>
 
-      <div
-        style={{
-          display:"flex",
-          gap:"10px",
-          flexWrap:"wrap",
-          marginBottom:"20px"
-        }}
-      >
+<h1
+style={{
+color:"#2E7D32",
+fontSize:"42px"
+}}
+>
+🍽 Weekly Recipe Planner
+</h1>
 
 
-        <input
-          placeholder="Ingredient"
-          value={ingredient}
-          onChange={(e)=>setIngredient(e.target.value)}
-          style={{
-            padding:"10px",
-            flex:1
-          }}
-        />
+<p>
+AI Generated Healthy Weekly Meal Plan
+</p>
 
+</div>
 
 
-        <select
-          value={group}
-          onChange={(e)=>setGroup(e.target.value)}
-        >
-          <option value="all">
-            All
-          </option>
 
-          <option value="kids">
-            Kids
-          </option>
 
-          <option value="adult">
-            Adult
-          </option>
 
-          <option value="elderly">
-            Elderly
-          </option>
+{/* PERSONALISE BUTTON */}
 
-          <option value="diabetic">
-            Diabetic
-          </option>
 
-          <option value="budgetfriendly">
-            Budget Friendly
-          </option>
 
-        </select>
 
 
 
-        <select
-          value={cuisine}
-          onChange={(e)=>setCuisine(e.target.value)}
-        >
 
-          <option value="balanced">
-            Balanced
-          </option>
+{/* PERSONALISE FORM */}
 
-          <option value="northindian">
-            North Indian
-          </option>
 
-          <option value="southindian">
-            South Indian
-          </option>
+{
+showPersonalise &&
 
-          <option value="italian">
-            Italian
-          </option>
 
-          <option value="chinese">
-            Chinese
-          </option>
+<div
 
-          <option value="mexican">
-            Mexican
-          </option>
+style={{
+maxWidth:"600px",
+margin:"20px auto",
+padding:"20px",
+border:"1px solid #ddd",
+borderRadius:"10px",
+boxShadow:"0 2px 8px rgba(0,0,0,.1)",
+background:"#fff"
+}}
 
-        </select>
+>
 
 
+<h2>
+Personalise Your Meal Plan
+</h2>
 
-        <button
-          onClick={handlerecipegenerate}
-          disabled={loading}
-        >
 
-          {
-            loading
-            ? "Generating..."
-            : "Generate Recipes"
-          }
 
-        </button>
+<label>
+Eating Habits
+</label>
 
+<input
 
-      </div>
+name="habits"
 
+value={preferences.habits}
 
+onChange={handleChange}
 
+placeholder="Enter eating habits"
 
-      {
-        error &&
-        <h3 style={{color:"red"}}>
-          {error}
-        </h3>
-      }
+style={{
+width:"100%",
+padding:"10px",
+margin:"8px 0"
+}}
 
+/>
 
 
 
 
-      <div
-        style={{
-          display:"grid",
-          gridTemplateColumns:
-          "repeat(auto-fit,minmax(350px,1fr))",
-          gap:"20px"
-        }}
-      >
+<label>
+Favourite Foods
+</label>
 
 
+<textarea
 
-      {
-        recipes.map((day,index)=>(
+name="foods"
 
+value={preferences.foods}
 
-          <div
-            key={index}
-            style={{
-              border:"1px solid #ddd",
-              borderRadius:"12px",
-              padding:"20px",
-              background:"#fff",
-              boxShadow:
-              "0 3px 10px rgba(0,0,0,.15)"
-            }}
-          >
+onChange={handleChange}
 
+placeholder="Favourite foods"
 
-            <h2>
-              📅 {day.day}
-            </h2>
+rows="3"
 
+style={{
+width:"100%",
+padding:"10px",
+margin:"8px 0"
+}}
 
+/>
 
 
-            {
-              ["breakfast","lunch","dinner"]
-              .map((meal)=>(
 
 
-                <div key={meal}>
+<label>
+Dietary Restrictions
+</label>
 
 
-                  <h3>
-                    🍴 {meal.toUpperCase()}
-                  </h3>
+<textarea
 
+name="restrictions"
 
+value={preferences.restrictions}
 
-                  <h4>
-                    {
-                      day[meal]?.title ||
-                      "No title"
-                    }
-                  </h4>
+onChange={handleChange}
 
+placeholder="Any restrictions"
 
+rows="3"
 
+style={{
+width:"100%",
+padding:"10px",
+margin:"8px 0"
+}}
 
-                  <p>
+/>
 
-                    <b>
-                      Calories:
-                    </b>
 
-                    {" "}
 
-                    {
-                      day[meal]?.calories ||
-                      "N/A"
-                    }
 
-                  </p>
+<label>
+Weight Goal
+</label>
 
 
+<textarea
 
+name="goal"
 
+value={preferences.goal}
 
-                  <b>
-                    Ingredients
-                  </b>
+onChange={handleChange}
 
+placeholder="Weight gain / loss"
 
-                  <ul>
+rows="3"
 
-                    {
-                      day[meal]?.ingredients?.map(
-                        (item,i)=>(
+style={{
+width:"100%",
+padding:"10px",
+margin:"8px 0"
+}}
 
-                          <li key={i}>
-                            {item}
-                          </li>
+/>
 
-                        )
-                      )
-                    }
 
-                  </ul>
 
 
 
+<label>
+Age
+</label>
 
 
-                  <b>
-                    Instructions
-                  </b>
+<input
 
+type="number"
 
-                  <p>
-                    {
-                      day[meal]?.instructions ||
-                      "No instructions"
-                    }
-                  </p>
+name="age"
 
+value={preferences.age}
 
+onChange={handleChange}
 
+style={{
+width:"100%",
+padding:"10px",
+margin:"8px 0"
+}}
 
+/>
 
 
-                  <b>
-                    Nutrition
-                  </b>
 
 
-                  <ul>
+<label>
+Weight KG
+</label>
 
-                  {
-                    day[meal]?.nutritionalinfo?.map(
-                      (item,i)=>(
 
-                        <li key={i}>
-                          {item}
-                        </li>
+<input
 
-                      )
-                    )
-                  }
+type="number"
 
-                  </ul>
+name="weight"
 
+value={preferences.weight}
 
-                  <hr/>
+onChange={handleChange}
 
+style={{
+width:"100%",
+padding:"10px",
+margin:"8px 0"
+}}
 
-                </div>
+/>
 
 
-              ))
-            }
 
 
+<button
 
-          </div>
+onClick={savePreferences}
 
+style={{
+padding:"12px 25px",
+background:"#16a34a",
+color:"white",
+border:"none",
+borderRadius:"8px",
+cursor:"pointer"
+}}
 
-        ))
-      }
+>
 
+Save Preferences
 
+</button>
 
-      </div>
 
+</div>
 
-    </div>
 
-  );
+}
+
+
+
+
+
+
+
+{/* SEARCH */}
+
+
+
+<div
+
+style={{
+display:"flex",
+gap:"10px",
+marginBottom:"30px"
+}}
+
+>
+
+
+<input
+
+placeholder="Search ingredient"
+
+value={ingredient}
+
+onChange={(e)=>setIngredient(e.target.value)}
+
+style={{
+flex:1,
+padding:"14px",
+borderRadius:"12px",
+border:"1px solid #ddd"
+}}
+
+/>
+
+
+
+
+<select
+
+value={group}
+
+onChange={(e)=>setGroup(e.target.value)}
+
+style={{
+padding:"14px"
+}}
+
+>
+
+<option value="all">
+All
+</option>
+
+<option value="kids">
+Kids
+</option>
+
+<option value="adult">
+Adult
+</option>
+
+<option value="elderly">
+Elderly
+</option>
+
+<option value="diabetic">
+Diabetic
+</option>
+
+</select>
+
+
+
+
+
+
+<select
+
+value={cuisine}
+
+onChange={(e)=>setCuisine(e.target.value)}
+
+style={{
+padding:"14px"
+}}
+
+>
+
+
+<option value="balanced">
+Balanced
+</option>
+
+<option value="northindian">
+North Indian
+</option>
+
+<option value="southindian">
+South Indian
+</option>
+
+<option value="italian">
+Italian
+</option>
+
+<option value="chinese">
+Chinese
+</option>
+
+</select>
+
+
+
+
+
+
+
+<button
+
+onClick={handlerecipegenerate}
+
+style={{
+padding:"14px",
+background:"#2E7D32",
+color:"white",
+border:"none",
+borderRadius:"10px"
+}}
+
+>
+
+{
+loading
+?
+"Generating..."
+:
+"Generate"
+}
+
+</button>
+{/* <button
+
+onClick={()=>setShowPersonalise(!showPersonalise)}
+
+style={{
+padding:"14px 25px",
+background:"#16a34a",
+color:"white",
+border:"none",
+borderRadius:"10px",
+cursor:"pointer",
+marginBottom:"20px"
+}}
+
+>
+
+{
+showPersonalise
+?
+"Close Personalise"
+:
+"Personalise"
+}
+
+
+</button> */}
+
+
+</div>
+
+
+
+
+
+
+{
+error &&
+<h3 style={{color:"red"}}>
+{error}
+</h3>
+}
+
+
+
+
+
+
+<div
+
+style={{
+display:"grid",
+gridTemplateColumns:
+"repeat(auto-fit,minmax(350px,1fr))",
+gap:"20px"
+}}
+
+>
+
+
+
+{
+recipes.map((day,index)=>(
+
+
+<div
+
+key={index}
+
+style={{
+padding:"25px",
+borderRadius:"20px",
+boxShadow:"0 10px 30px #ddd"
+}}
+
+>
+
+
+<h2>
+📅 {day.day}
+</h2>
+
+
+
+
+{
+["breakfast","lunch","dinner"]
+.map(meal=>(
+
+
+<div key={meal}>
+
+
+<h3>
+🍴 {meal}
+</h3>
+
+
+<h4>
+{day[meal]?.title}
+</h4>
+
+
+<p>
+Calories:
+{" "}
+{day[meal]?.calories}
+</p>
+
+
+<b>
+Ingredients
+</b>
+
+
+<ul>
+
+{
+day[meal]?.ingredients?.map((x,i)=>
+<li key={i}>{x}</li>
+)
+}
+
+</ul>
+
+
+
+<b>
+Instructions
+</b>
+
+<p>
+{day[meal]?.instructions}
+</p>
+
+
+
+<hr/>
+
+</div>
+
+
+))
+
+}
+
+
+</div>
+
+
+))
+
+}
+
+
+</div>
+
+
+
+</div>
+
+);
+
 
 };
 

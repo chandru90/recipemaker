@@ -13,11 +13,11 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white px-4 py-3">
+    <div className="bg-gray-900 text-white px-4 py-12 ">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link
           to="/"
-          className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-green-500 to-pink-600 hover:animate-pulse hover:text-blue-300 transition duration-300 ease-in-out transform hover:scale-110"
+          className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-green-500 to-pink-600 hover:animate-pulse hover:text-blue-300 transition duration-300 ease-in-out transform hover:scale-110"
         >
           SavorySecrets
         </Link>
@@ -25,29 +25,29 @@ export const Navbar = () => {
         <div className="flex space-x-6">
           <Link
             to="/"
-            className="text-sm text-gray-300 hover:text-white transition duration-200"
+            className="text-lg text-gray-300 hover:text-white transition duration-200"
           >
             Home
           </Link>
           <Link
             to="/create-recipe"
-            className="text-sm text-gray-300 hover:text-white transition duration-200"
+            className="text-lg text-gray-300 hover:text-white transition duration-200"
           >
             Create Recipe
           </Link>
           <Link
             to="/saved-recipes"
-            className="text-sm text-gray-300 hover:text-white transition duration-200"
+            className="text-lg text-gray-300 hover:text-white transition duration-200"
           >
             Saved Recipes
           </Link>
           <Link
             to="/foodstory"
-            className="text-sm text-gray-300 hover:text-white transition duration-200"
+            className="text-lg text-gray-300 hover:text-white transition duration-200"
           >Food Story</Link>
               <Link
             to="/generaterecipe"
-            className="text-sm text-gray-300 hover:text-white transition duration-200"
+            className="text-lg text-gray-300 hover:text-white transition duration-200"
           >
              
             generate recipes 
@@ -56,7 +56,7 @@ export const Navbar = () => {
           {!cookies.access_token ? (
             <Link
               to="/auth"
-              className="text-sm text-gray-300 hover:text-white transition duration-200"
+              className="text-lg text-gray-300 hover:text-white transition duration-200"
             >
               Login/Register
             </Link>
@@ -64,7 +64,7 @@ export const Navbar = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={logout}
-                className="text-sm text-red-500 hover:text-red-700 transition duration-200 focus:outline-none"
+                className="text-lg text-red-500 hover:text-red-700 transition duration-200 focus:outline-none"
               >
                 Logout
               </button>
